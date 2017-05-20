@@ -3,6 +3,7 @@
   margin-bottom: 0;
   min-width: 10rem;
   min-height: 1rem;
+  max-width: 10rem;
   padding: 0;
   line-height: 2.2rem;
   resize: both;
@@ -15,12 +16,24 @@
   justify-content: center;
   min-width: 10rem;
   min-height: 1rem;
+  max-width: 10rem;
   align-items: center;
-  resize: none;
-  font-weight: 800;
   background: #d2d2d2;
   border-bottom: 1px solid #fff;
   border-left: 1px solid #fff;
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #d2d2d2;
+    resize: none;
+    font-weight: 800;
+    flex: 1;
+    border-radius: 0;
+    p{
+      margin-bottom: 0;
+    }
+  }
 }
 
 .row-container {
@@ -28,15 +41,28 @@
   flex-direction: row;
   justify-content: flex-start;
   .row-header {
-    min-width: 3.2rem;
+    min-width: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 2.4rem;
+    height: 3rem;
     margin-bottom: 0;
     font-weight: 800;
     background: #d2d2d2;
     border-bottom: 1px solid #fff;
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #d2d2d2;
+      resize: none;
+      font-weight: 800;
+      flex: 1;
+      border-radius: 0;
+      p{
+        margin-bottom: 0;
+      }
+    }
   }
 }
 

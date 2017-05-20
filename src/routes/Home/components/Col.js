@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 
-import colNameResolver from '../helper';
+import colNameResolver from '../helper'
 
 export default class Col extends React.PureComponent {
   static propTypes = {
@@ -85,7 +85,6 @@ export default class Col extends React.PureComponent {
       <div
         className={this.computeClasses()}
         contentEditable={contentEditable}
-        // onInput={() => this.emitChange()}
         onBlur={() => this.emitChange()}
         onDoubleClick={() => this.onDoubleClick()}
         onClick={() => this.selectCol()}
@@ -99,21 +98,37 @@ export default class Col extends React.PureComponent {
 export class ColHeader extends React.PureComponent {
   static propTypes = {
     contentLength: PropTypes.number,
+    insertCol: PropTypes.func,
+    deleteCol: PropTypes.func,
   }
 
   render () {
-    let colArr = new Array(this.props.contentLength).fill(0);
+    let colArr = new Array(this.props.contentLength).fill(0)
     colArr = colArr.map((el, index) => (
-      <p key={index} className='col-header'>{colNameResolver(index + 1)}</p>
+      <div className='dropdown col-header' key={index}>
+        <button
+          className='btn btn-secondary dropdown-toggle'
+          type='button'
+          id={`d-${index}`}
+          data-toggle='dropdown'
+          aria-haspopup
+          aria-expanded='false'
+        >
+          <p key={index}>{colNameResolver(index + 1)}</p>
+        </button>
+        <div className='dropdown-menu' aria-labelledby={`d-${index}`}>
+          <a className='dropdown-item' onClick={() => this.props.insertCol(index, 'left')}>Insert 1 left</a>
+          <a className='dropdown-item' onClick={() => this.props.insertCol(index, 'right')}>Insert 1 right</a>
+          <a className='dropdown-item' onClick={() => this.props.deleteCol(index)}>Delete Column</a>
+        </div>
+      </div>
     ))
     return (
       <div className='row-container'>
-        {
-          [
-            <p className='row-header'>&nbsp;</p>,
-            ...colArr
-          ]
-        }
+        {[
+          <p key={-1} className='row-header'>&nbsp;</p>,
+          ...colArr
+        ]}
       </div>
     )
   }

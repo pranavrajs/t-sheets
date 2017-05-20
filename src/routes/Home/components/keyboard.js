@@ -35,6 +35,18 @@ export default {
     return e.keyCode === 73 && (e.metaKey || e.ctrlKey)
   },
 
+  isCopyCommand (e) {
+    return e.keyCode === 67 && (e.metaKey || e.ctrlKey)
+  },
+
+  isCutCommand (e) {
+    return e.keyCode === 88 && (e.metaKey || e.ctrlKey)
+  },
+
+  isPasteCommand (e) {
+    return e.keyCode === 86 && (e.metaKey || e.ctrlKey)
+  },
+
   isPageup (e) {
     return e.keyCode === 33
   },

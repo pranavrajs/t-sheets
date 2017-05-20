@@ -5,6 +5,12 @@ export const SELECT_COL = 'SELECT_COL'
 export const EDIT_COL = 'EDIT_COL'
 export const CLEAR_EDIT = 'CLEAR_EDIT'
 export const UPDATE_CELL_DATA = 'UPDATE_CELL_DATA'
+// Insert Row
+export const INSERT_COL = 'INSERT_COL'
+export const DELETE_COL = 'DELETE_COL'
+// Delete Row
+export const INSERT_ROW = 'INSERT_ROW'
+export const DELETE_ROW = 'DELETE_ROW'
 
 function processNewState (x, y, cell, data) {
   const row = [...data[x].slice(0, y), cell, ...data[x].slice(y + 1)]
@@ -13,6 +19,7 @@ function processNewState (x, y, cell, data) {
 // ------------------------------------
 // Actions
 // ------------------------------------
+// Cell Operations
 export function selectCol ({ x, y }) {
   return {
     type    : SELECT_COL,
@@ -49,14 +56,53 @@ export function updateCellData (attr) {
   }
 }
 
-export const actions = {
-  selectCol,
-  editCol,
+
+// Col Actions
+export function insertCol (index, dir) {
+  return {
+    type: INSERT_COL,
+    payload: {
+      index,
+      dir
+    }
+  }
+}
+
+export function deleteCol (index) {
+  return {
+    type: DELETE_COL,
+    payload: {
+      index,
+    }
+  }
+}
+
+
+// Row Actions
+export function insertRow (index, dir) {
+  return {
+    type: INSERT_ROW,
+    payload: {
+      index,
+      dir
+    }
+  }
+}
+
+export function deleteRow (index) {
+  return {
+    type: DELETE_ROW,
+    payload: {
+      index,
+    }
+  }
 }
 
 const ACTION_HANDLERS = {
-  [SELECT_COL]    : (state, action) => state + action.payload,
-  [EDIT_COL]    : (state, action) => {
+
+  // Cell Operations
+  [SELECT_COL]: (state, action) => state + action.payload,
+  [EDIT_COL]: (state, action) => {
     const { payload } = action
     const { data } = state
     // Remove selection from currentlySelected
@@ -106,6 +152,64 @@ const ACTION_HANDLERS = {
       data: newCellData
     }
   },
+
+  // Col Operations
+  [INSERT_COL]: (state, action) => {
+    const { payload } = action
+    const { index, dir } = payload
+    const data = []
+    const posToInsert = dir === 'left' ? index : index + 1
+    state.data.forEach((el) => {
+      data.push([...el.slice(0, posToInsert), cellData, ...el.slice(posToInsert)])
+    })
+
+    return {
+      ...state,
+      data
+    }
+  },
+  [DELETE_COL]: (state, action) => {
+    const { payload } = action
+    const { index } = payload
+    const data = []
+    state.data.forEach((el) => {
+      data.push([...el.slice(0, index), ...el.slice(index + 1)])
+    })
+
+    return {
+      ...state,
+      data
+    }
+  },
+
+  // Row Operations
+  [INSERT_ROW]: (state, action) => {
+    const { payload } = action
+    const { index, dir } = payload
+    const posToInsert = dir === 'up' ? index : index + 1
+    const colLength = state.data[0].length
+    const data = [
+      ...state.data.slice(0, posToInsert),
+      new Array(colLength).fill(cellData),
+      ...state.data.slice(posToInsert)
+    ]
+    return {
+      ...state,
+      data
+    }
+  },
+  [DELETE_ROW]: (state, action) => {
+    const { payload } = action
+    const { index } = payload
+    const data = [
+      ...state.data.slice(0, index),
+      ...state.data.slice(index + 1)
+    ]
+    return {
+      ...state,
+      data
+    }
+  }
 }
 
 const cellData = {
@@ -124,7 +228,7 @@ const initialState = {
     x: -1,
     y: -1
   },
-  data: new Array(100).fill(new Array(50).fill(cellData))
+  data: new Array(40).fill(new Array(10).fill(cellData))
 }
 
 export default function counterReducer (state = initialState, action) {

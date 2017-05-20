@@ -43,7 +43,12 @@ const config = {
       __DEV__,
       __TEST__,
       __PROD__,
-    }, project.globals))
+    }, project.globals)),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    })
   ],
 }
 
@@ -146,6 +151,10 @@ config.module.rules.push({
   },
 })
 
+config.module.rules.push({
+  test: /bootstrap\/dist\/js\/umd\//,
+  loader: 'imports?jQuery=jquery'
+})
 // Fonts
 // ------------------------------------
 ;[

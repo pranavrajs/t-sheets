@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 
 import Keyboard from './keyboard'
 import './HomeView.scss'
-import colNameResolver from '../helper';
 import Row from './Row'
 import { ColHeader } from './Col'
+
 class Master extends React.Component {
   static propTypes = {
     cellData: PropTypes.array,
@@ -14,8 +13,16 @@ class Master extends React.Component {
     editCol: PropTypes.func,
     clearEdit: PropTypes.func,
     updateCellData: PropTypes.func,
+    insertCol: PropTypes.func,
+    deleteCol: PropTypes.func,
+    insertRow: PropTypes.func,
+    deleteRow: PropTypes.func,
   }
+  state ={
+    clipboard: {
 
+    }
+  }
   componentDidMount () {
     window.addEventListener('keydown', (e) => this.handleKeyDown(e))
   }
@@ -93,17 +100,43 @@ class Master extends React.Component {
     }
     if (Keyboard.isItalics(e)) {
       e.preventDefault()
-      if (x === -1 && y === -1) {
-        return
-      }
+      if (x === -1 && y === -1) return
       this.props.updateCellData({
         italics: !cellData[x][y].italics
+      })
+    }
+
+    if (Keyboard.isCopyCommand(e)) {
+      e.preventDefault()
+      this.setState({
+        clipboard: cellData[x][y]
+      })
+    }
+    if (Keyboard.isCutCommand(e)) {
+      e.preventDefault()
+      this.props.updateCellData({
+        value: ''
+      })
+      this.setState({
+        clipboard: cellData[x][y]
+      })
+    }
+    if (Keyboard.isPasteCommand(e)) {
+      e.preventDefault()
+      const { clipboard } = this.state
+      const { x, y } = this.props.currentSelection
+      if (x === -1 && y === -1) return
+      if (!clipboard.value) return
+      this.props.updateCellData({
+        ...clipboard,
+        x,
+        y,
       })
     }
   }
   renderRows () {
     let arr = []
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < this.props.cellData.length; i++) {
       arr.push(
         <Row
           key={i}
@@ -111,6 +144,8 @@ class Master extends React.Component {
           data={this.props.cellData[i]}
           editCol={this.props.editCol}
           clearEdit={this.props.clearEdit}
+          insertRow={this.props.insertRow}
+          deleteRow={this.props.deleteRow}
         />)
     }
     return arr
@@ -118,7 +153,11 @@ class Master extends React.Component {
   render () {
     return (
       <div style={{ overflow: 'scroll' }}>
-        <ColHeader contentLength={10} />
+        <ColHeader
+          contentLength={this.props.cellData[0].length}
+          insertCol={this.props.insertCol}
+          deleteCol={this.props.deleteCol}
+        />
         { this.renderRows() }
       </div>
     )

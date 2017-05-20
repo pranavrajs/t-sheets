@@ -6,7 +6,6 @@
 html {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  font-family: 'proxima-nova';
 }
 
 html,
@@ -14,7 +13,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-size: 14px;
+  font-size: 14px !important;
+  font-family: 'proxima-nova' !important;
 }
 
 *,
