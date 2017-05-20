@@ -1,0 +1,31 @@
+.col {
+  border: 1px solid #eee;
+  margin-bottom: 0;
+  min-width: 10rem;
+  min-height: 1rem;
+  padding: 0;
+}
+
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.selected {
+  border: 1px solid green;
+}
+
+
+.bold {
+  font-weight: bold;
+}
+
+.italics {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
