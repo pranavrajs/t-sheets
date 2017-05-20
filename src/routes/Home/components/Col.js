@@ -27,6 +27,9 @@ export default class Col extends React.PureComponent {
       x: row,
       y: col,
     })
+    setTimeout(() => {
+      ReactDOM.findDOMNode(this).focus()
+    })
   }
   selectCol () {
     const { row, col, editCol, clearEdit, data } = this.props
@@ -114,7 +117,7 @@ export class ColHeader extends React.PureComponent {
           aria-haspopup
           aria-expanded='false'
         >
-          <p key={index}>{colNameResolver(index + 1)}</p>
+          <p key={index}>{colNameResolver(index)}</p>
         </button>
         <div className='dropdown-menu' aria-labelledby={`d-${index}`}>
           <a className='dropdown-item' onClick={() => this.props.insertCol(index, 'left')}>Insert 1 left</a>

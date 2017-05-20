@@ -228,7 +228,7 @@ const initialState = {
     x: -1,
     y: -1
   },
-  data: new Array(40).fill(new Array(10).fill(cellData))
+  data: new Array(40).fill(new Array(26).fill(cellData))
 }
 
 export default function counterReducer (state = initialState, action) {

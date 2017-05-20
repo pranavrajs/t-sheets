@@ -51,7 +51,7 @@ export default class Row extends React.PureComponent {
               Insert 1 below
             </a>
             <a className='dropdown-item' onClick={() => this.props.deleteRow(this.props.row)}>
-              Delete Column
+              Delete Row
             </a>
           </div>
         </div>

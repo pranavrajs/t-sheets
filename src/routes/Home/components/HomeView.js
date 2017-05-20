@@ -54,7 +54,7 @@ class Master extends React.Component {
         this.selectCol(x - 1, y)
       }
     }
-    if (Keyboard.isDown(e)) {
+    if (Keyboard.isDown(e) || Keyboard.isEnter(e)) {
       if (x !== cellData.length - 1) {
         e.preventDefault()
         this.selectCol(x + 1, y)

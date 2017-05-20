@@ -4,6 +4,11 @@ import './PageLayout.scss'
 
 export const PageLayout = ({ children }) => (
   <div style={{ overflow: 'scroll', resize: 'both' }}>
+    <nav className='navbar navbar-light bg-faded'>
+      <a className='navbar-brand'>
+        T-SHEETS
+      </a>
+    </nav>
     {children}
   </div>
 )
