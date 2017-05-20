@@ -91,7 +91,7 @@ const ACTION_HANDLERS = {
       data: newCellData
     }
   },
-  [UPDATE_CELL_DATA]    : (state, action) => {
+  [UPDATE_CELL_DATA]: (state, action) => {
     const { payload } = action
     const { data, currentlySelected } = state
     if (currentlySelected.x === -1) return state
@@ -124,7 +124,7 @@ const initialState = {
     x: -1,
     y: -1
   },
-  data: new Array(50).fill(new Array(50).fill(cellData))
+  data: new Array(100).fill(new Array(50).fill(cellData))
 }
 
 export default function counterReducer (state = initialState, action) {

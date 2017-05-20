@@ -4,135 +4,10 @@ import ReactDOM from 'react-dom'
 
 import Keyboard from './keyboard'
 import './HomeView.scss'
-
-class Col extends React.PureComponent {
-  static propTypes = {
-    row: PropTypes.number,
-    col: PropTypes.number,
-    data: PropTypes.object,
-    editCol: PropTypes.func,
-    clearEdit: PropTypes.func,
-  }
-  onKeyDown (e) {
-    console.log(e);
-  }
-  onClick () {
-    console.log('onClick', this.props.row, this.props.col)
-  }
-  onDoubleClick () {
-    const { row, col, editCol } = this.props
-    editCol({
-      attr: {
-        contentEditable: true,
-      },
-      x: row,
-      y: col,
-    })
-  }
-  selectCol () {
-    const { row, col, editCol, clearEdit, data } = this.props
-    if (data.isSelected) {
-      return
-    }
-    clearEdit({
-      x: row,
-      y: col,
-    })
-    editCol({
-      attr: {
-        isSelected: true,
-      },
-      x: row,
-      y: col,
-    })
-  }
-
-  computeClasses () {
-    const { data } = this.props
-    let className = 'col'
-    if (data.isSelected) {
-      className = `${className} selected`
-    }
-    if (data.bold) {
-      className = `${className} bold`
-    }
-    if (data.italics) {
-      className = `${className} italics`
-    }
-    if (data.underline) {
-      className = `${className} underline`
-    }
-    return className
-  }
-
-  emitChange () {
-    const { row, col, editCol, data } = this.props
-    const value = ReactDOM.findDOMNode(this).innerHTML
-    if (data.value === value) {
-      return
-    }
-    editCol({
-      attr: {
-        value,
-      },
-      x: row,
-      y: col,
-    })
-  }
-
-  render () {
-    const { value, contentEditable } = this.props.data
-    return (
-      <div
-        className={this.computeClasses()}
-        contentEditable={contentEditable}
-        // onInput={() => this.emitChange()}
-        onBlur={() => this.emitChange()}
-        onDoubleClick={() => this.onDoubleClick()}
-        onClick={() => this.selectCol()}
-      >
-        {value}
-      </div>
-    )
-  }
-}
-class Row extends React.Component {
-  static propTypes = {
-    row: PropTypes.number,
-    data: PropTypes.array,
-    editCol: PropTypes.func,
-    clearEdit: PropTypes.func,
-  }
-  renderCols () {
-    let arr = []
-    for (let i = 0; i < 10; i++) {
-      arr.push(
-        <Col
-          key={`${this.props.row}-${i}`}
-          row={this.props.row}
-          col={i}
-          data={this.props.data[i]}
-          editCol={this.props.editCol}
-          clearEdit={this.props.clearEdit}
-        />)
-    }
-    return arr
-  }
-  render () {
-    return (
-      <div className='row-container'>
-        <p
-          className='col'
-          onDoubleClick={() => this.onDoubleClick()}
-        >
-          {this.props.row + 1}
-        </p>
-        {this.renderCols()}
-      </div>
-    )
-  }
-}
-class Master extends React.PureComponent {
+import colNameResolver from '../helper';
+import Row from './Row'
+import { ColHeader } from './Col'
+class Master extends React.Component {
   static propTypes = {
     cellData: PropTypes.array,
     currentSelection: PropTypes.object,
@@ -243,6 +118,7 @@ class Master extends React.PureComponent {
   render () {
     return (
       <div style={{ overflow: 'scroll' }}>
+        <ColHeader contentLength={10} />
         { this.renderRows() }
       </div>
     )

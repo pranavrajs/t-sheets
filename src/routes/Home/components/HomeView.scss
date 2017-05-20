@@ -4,13 +4,40 @@
   min-width: 10rem;
   min-height: 1rem;
   padding: 0;
+  line-height: 2.2rem;
+  resize: both;
+  overflow: auto;
 }
 
+
+.col-header {
+  display: flex;
+  justify-content: center;
+  min-width: 10rem;
+  min-height: 1rem;
+  align-items: center;
+  resize: none;
+  font-weight: 800;
+  background: #d2d2d2;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #fff;
+}
 
 .row-container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  .row-header {
+    min-width: 3.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.4rem;
+    margin-bottom: 0;
+    font-weight: 800;
+    background: #d2d2d2;
+    border-bottom: 1px solid #fff;
+  }
 }
 
 .selected {
