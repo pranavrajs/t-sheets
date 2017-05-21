@@ -76,8 +76,6 @@ export function deleteCol (index) {
     }
   }
 }
-
-
 // Row Actions
 export function insertRow (index, dir) {
   return {

@@ -1,6 +1,8 @@
 import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
 import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
+import { persistStore, autoRehydrate } from 'redux-persist'
+
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
 
@@ -30,6 +32,7 @@ const createStore = (initialState = {}) => {
     initialState,
     composeEnhancers(
       applyMiddleware(...middleware),
+      autoRehydrate(),
       ...enhancers
     )
   )
@@ -37,6 +40,7 @@ const createStore = (initialState = {}) => {
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
+  persistStore(store)
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
