@@ -169,9 +169,24 @@ class Master extends React.Component {
     }
     return arr
   }
+  exportToCSV () {
+    const { cellData } = this.props
+    let csvContent = 'data:text/csv;charset=utf-8,'
+    cellData.forEach((row, index) => {
+      const rowData = row.map((el) => {
+        return el.value
+      }).join(',')
+      csvContent += index < cellData.length ? `${rowData}\n` : rowData
+    })
+    const encodedUri = encodeURI(csvContent)
+    location.href = encodedUri
+  }
   render () {
     return (
       <div style={{ overflow: 'scroll' }}>
+        <button onClick={() => this.exportToCSV()}>
+          Export to CSV
+        </button>
         <ColHeader
           contentLength={this.props.cellData[0].length}
           insertCol={this.props.insertCol}
