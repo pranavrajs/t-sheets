@@ -42,7 +42,6 @@ class Master extends React.Component {
     })
   }
   handleKeyDown (e) {
-    console.log(e)
     const { currentSelection, cellData } = this.props
     const { x, y } = currentSelection
     if (Keyboard.isEnter(e)) {

@@ -12,7 +12,7 @@ import {
 
 const mapStateToProps = (state) => ({
   cellData : state.cellData.data,
-  currentSelection: state.cellData.currentlySelected
+  currentSelection: state.cellData.currentSelection
 })
 
 const bindActions = {

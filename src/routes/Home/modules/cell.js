@@ -105,14 +105,14 @@ const ACTION_HANDLERS = {
   [EDIT_COL]: (state, action) => {
     const { payload } = action
     const { data } = state
-    // Remove selection from currentlySelected
+    // Remove selection from currentSelection
     const cell = {
       ...data[payload.x][payload.y],
       ...payload.attr,
     }
     const newCellData = processNewState(payload.x, payload.y, cell, data)
     return {
-      currentlySelected: {
+      currentSelection: {
         x: payload.x,
         y: payload.y,
       },
@@ -120,17 +120,17 @@ const ACTION_HANDLERS = {
     }
   },
   [CLEAR_EDIT]    : (state, action) => {
-    const { data, currentlySelected } = state
-    if (currentlySelected.x === -1) return state
-    // Remove selection from currentlySelected
+    const { data, currentSelection } = state
+    if (currentSelection.x === -1) return state
+    // Remove selection from currentSelection
     const cell = {
-      ...data[currentlySelected.x][currentlySelected.y],
+      ...data[currentSelection.x][currentSelection.y],
       isSelected: false,
       contentEditable: false,
     }
-    const newCellData = processNewState(currentlySelected.x, currentlySelected.y, cell, data)
+    const newCellData = processNewState(currentSelection.x, currentSelection.y, cell, data)
     return {
-      currentlySelected: {
+      currentSelection: {
         x: -1,
         y: -1,
       },
@@ -139,16 +139,16 @@ const ACTION_HANDLERS = {
   },
   [UPDATE_CELL_DATA]: (state, action) => {
     const { payload } = action
-    const { data, currentlySelected } = state
-    if (currentlySelected.x === -1) return state
-    // Remove selection from currentlySelected
+    const { data, currentSelection } = state
+    if (currentSelection.x === -1) return state
+    // Remove selection from currentSelection
     const cell = {
-      ...data[currentlySelected.x][currentlySelected.y],
+      ...data[currentSelection.x][currentSelection.y],
       ...payload,
     }
-    const newCellData = processNewState(currentlySelected.x, currentlySelected.y, cell, data)
+    const newCellData = processNewState(currentSelection.x, currentSelection.y, cell, data)
     return {
-      currentlySelected,
+      currentSelection,
       data: newCellData
     }
   },
@@ -157,27 +157,42 @@ const ACTION_HANDLERS = {
   [INSERT_COL]: (state, action) => {
     const { payload } = action
     const { index, dir } = payload
+    const { currentSelection } = state
     const data = []
+    // Find Place to Insert and update currently selected
     const posToInsert = dir === 'left' ? index : index + 1
+    const y = dir === 'left' ? currentSelection.y + 1 : currentSelection.y
     state.data.forEach((el) => {
       data.push([...el.slice(0, posToInsert), cellData, ...el.slice(posToInsert)])
     })
 
     return {
-      ...state,
+      currentSelection: {
+        x: currentSelection.x,
+        y
+      },
       data
     }
   },
   [DELETE_COL]: (state, action) => {
     const { payload } = action
     const { index } = payload
+    const { currentSelection } = state
     const data = []
+
+    // Reset currentSelection if y is in same column
+    let y = index === currentSelection.y ? -1 : currentSelection.y
+    // If greater decrement 1 else set same
+    y = index < currentSelection.y ? currentSelection.y - 1 : y
     state.data.forEach((el) => {
       data.push([...el.slice(0, index), ...el.slice(index + 1)])
     })
 
     return {
-      ...state,
+      currentSelection: {
+        x: currentSelection.x,
+        y
+      },
       data
     }
   },
@@ -186,7 +201,11 @@ const ACTION_HANDLERS = {
   [INSERT_ROW]: (state, action) => {
     const { payload } = action
     const { index, dir } = payload
+    const { currentSelection } = state
+    // Find Place to Insert and update currently selected
     const posToInsert = dir === 'up' ? index : index + 1
+    const x = dir === 'up' ? currentSelection.x + 1 : currentSelection.x
+    // Update row
     const colLength = state.data[0].length
     const data = [
       ...state.data.slice(0, posToInsert),
@@ -194,19 +213,32 @@ const ACTION_HANDLERS = {
       ...state.data.slice(posToInsert)
     ]
     return {
-      ...state,
+      currentSelection: {
+        x,
+        y: currentSelection.y
+      },
       data
     }
   },
   [DELETE_ROW]: (state, action) => {
     const { payload } = action
     const { index } = payload
+    const { currentSelection } = state
+    // Reset currentSelection if x is in same column
+    let x = index === currentSelection.x ? -1 : currentSelection.x
+    // If greater decrement 1 else set same
+    x = index < currentSelection.x ? currentSelection.x - 1 : x
+
+    // Update rows
     const data = [
       ...state.data.slice(0, index),
       ...state.data.slice(index + 1)
     ]
     return {
-      ...state,
+      currentSelection: {
+        x,
+        y: currentSelection.y
+      },
       data
     }
   }
@@ -224,7 +256,7 @@ const cellData = {
 }
 
 const initialState = {
-  currentlySelected: {
+  currentSelection: {
     x: -1,
     y: -1
   },
