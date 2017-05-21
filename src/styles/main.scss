@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
 html {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -24,6 +26,3 @@ p {
 .navbar {
     margin-bottom: 0 !important;
 }
-
-
-@import '~bootstrap/scss/bootstrap.scss';
