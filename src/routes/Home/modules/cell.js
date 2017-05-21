@@ -159,7 +159,10 @@ const ACTION_HANDLERS = {
     const data = []
     // Find Place to Insert and update currently selected
     const posToInsert = dir === 'left' ? index : index + 1
-    const y = dir === 'left' ? currentSelection.y + 1 : currentSelection.y
+    // Check if col is inserted on left
+    // or on same col left side
+    let y = index < currentSelection.y ? currentSelection.y + 1 : currentSelection.y
+    y = index === currentSelection.y ? dir === 'left' ? y + 1 : y : y
     state.data.forEach((el) => {
       data.push([...el.slice(0, posToInsert), cellData, ...el.slice(posToInsert)])
     })
@@ -202,7 +205,8 @@ const ACTION_HANDLERS = {
     const { currentSelection } = state
     // Find Place to Insert and update currently selected
     const posToInsert = dir === 'up' ? index : index + 1
-    const x = dir === 'up' ? currentSelection.x + 1 : currentSelection.x
+    let x = index < currentSelection.x ? currentSelection.x + 1 : currentSelection.x
+    x = index === currentSelection.x ? dir === 'up' ? x + 1 : x : x
     // Update row
     const colLength = state.data[0].length
     const data = [
@@ -226,7 +230,6 @@ const ACTION_HANDLERS = {
     let x = index === currentSelection.x ? -1 : currentSelection.x
     // If greater decrement 1 else set same
     x = index < currentSelection.x ? currentSelection.x - 1 : x
-
     // Update rows
     const data = [
       ...state.data.slice(0, index),
