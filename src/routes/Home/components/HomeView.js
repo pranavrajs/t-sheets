@@ -65,9 +65,10 @@ class Master extends React.Component {
         e.preventDefault()
         const domObj = document.getElementById(`col-${x}${y}`)
         const value = ReactDOM.findDOMNode(domObj).innerHTML
-        if (cellData[x][y].value === value) {
-          return
-        }
+        // if (cellData[x][y].value === value) {
+        //   return
+        // }
+        console.log(cellData[x][y].value, x, y)
         this.props.editCol({
           attr: {
             value,
@@ -189,13 +190,20 @@ class Master extends React.Component {
   }
   exportToCSV () {
     const { cellData } = this.props
-    let csvContent = 'data:text/csv;charset=utf-8,'
+    let csvContent = ['data:text/csv;charset=utf-8,']
+    let rowWithLastItem
     cellData.forEach((row, index) => {
       const rowData = row.map((el) => {
         return el.value
       }).join(',')
-      csvContent += index < cellData.length ? `${rowData}\n` : rowData
+      // Check the content length
+      const replaceCheck = rowData.replace(/,/g, '')
+      rowWithLastItem = replaceCheck.length ? index : rowWithLastItem
+      // content
+      const content = index < cellData.length ? `${rowData}\n` : rowData
+      csvContent.push(content)
     })
+    csvContent = csvContent.slice(0, rowWithLastItem + 2).join('')
     const encodedUri = encodeURI(csvContent)
     location.href = encodedUri
   }
