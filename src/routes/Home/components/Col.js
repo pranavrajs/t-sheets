@@ -83,9 +83,11 @@ export default class Col extends React.PureComponent {
   }
 
   render () {
-    const { value, contentEditable } = this.props.data
+    const { data, row, col } = this.props
+    const { value, contentEditable } = data
     return (
       <div
+        id={`col-${row}${col}`}
         className={this.computeClasses()}
         contentEditable={contentEditable}
         onBlur={() => this.emitChange()}

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
 
 import Keyboard from './keyboard'
 import './HomeView.scss'
@@ -54,9 +55,27 @@ class Master extends React.Component {
         this.selectCol(x - 1, y)
       }
     }
-    if (Keyboard.isDown(e) || Keyboard.isEnter(e)) {
+    if (Keyboard.isDown(e)) {
       if (x !== cellData.length - 1) {
         e.preventDefault()
+        this.selectCol(x + 1, y)
+      }
+    }
+    if (Keyboard.isEnter(e)) {
+      if (x !== cellData.length - 1) {
+        e.preventDefault()
+        var domObj = document.getElementById(`col-${x}${y}`)
+        const value = ReactDOM.findDOMNode(domObj).innerHTML
+        if (cellData[x][y].value === value) {
+          return
+        }
+        this.props.editCol({
+          attr: {
+            value,
+          },
+          x,
+          y,
+        })
         this.selectCol(x + 1, y)
       }
     }
@@ -108,6 +127,7 @@ class Master extends React.Component {
 
     if (Keyboard.isCopyCommand(e)) {
       e.preventDefault()
+      console.log(x, y, cellData[x][y])
       this.setState({
         clipboard: cellData[x][y]
       })
