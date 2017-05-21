@@ -58,4 +58,8 @@ export default {
   isEscape (e) {
     return e.keyCode === 27
   },
+
+  isChar (e) {
+    return e.keyCode >= 65 && e.keyCode <= 91
+  }
 }

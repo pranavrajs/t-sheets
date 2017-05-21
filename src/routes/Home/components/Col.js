@@ -93,6 +93,7 @@ export default class Col extends React.PureComponent {
         onBlur={() => this.emitChange()}
         onDoubleClick={() => this.onDoubleClick()}
         onClick={() => this.selectCol()}
+        suppressContentEditableWarning
       >
         {value}
       </div>

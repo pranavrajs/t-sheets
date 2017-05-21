@@ -1,9 +1,9 @@
 $header-color: #EFEFEF;
 $brand-color: #0F9D58;
 $color-white: #fff;
-
+$color-border: #eee;
 .col {
-  border: 1px solid #eee;
+  border: 1px solid $color-border;
   margin-bottom: 0;
   min-width: 10rem;
   min-height: 1rem;
@@ -12,6 +12,7 @@ $color-white: #fff;
   line-height: 2.2rem;
   resize: both;
   overflow: auto;
+  background: $color-white;
 }
 
 .export {
@@ -54,7 +55,7 @@ $color-white: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 3rem;
+    min-height: 1rem;
     margin-bottom: 0;
     background: $header-color;
     border-bottom: 1px solid #fff;

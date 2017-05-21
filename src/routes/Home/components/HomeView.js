@@ -48,13 +48,13 @@ class Master extends React.Component {
       e.preventDefault()
     }
     // Y-Direction
-    if (Keyboard.isUp(e)) {
+    if (Keyboard.isUp(e) && !cellData[x][y].contentEditable) {
       if (x) {
         e.preventDefault()
         this.selectCol(x - 1, y)
       }
     }
-    if (Keyboard.isDown(e)) {
+    if (Keyboard.isDown(e) && !cellData[x][y].contentEditable) {
       if (x !== cellData.length - 1) {
         e.preventDefault()
         this.selectCol(x + 1, y)
@@ -71,6 +71,7 @@ class Master extends React.Component {
         this.props.editCol({
           attr: {
             value,
+            contentEditable: false,
           },
           x,
           y,
@@ -80,13 +81,13 @@ class Master extends React.Component {
     }
     // X-direction
 
-    if (Keyboard.isLeft(e)) {
+    if (Keyboard.isLeft(e) && !cellData[x][y].contentEditable) {
       if (y) {
         e.preventDefault()
         this.selectCol(x, y - 1)
       }
     }
-    if (Keyboard.isRight(e)) {
+    if (Keyboard.isRight(e) && !cellData[x][y].contentEditable) {
       if (y !== cellData[0].length - 1) {
         e.preventDefault()
         this.selectCol(x, y + 1)
@@ -151,6 +152,23 @@ class Master extends React.Component {
         x,
         y,
       })
+    }
+
+    if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
+      if (!Keyboard.isChar(e)) return
+      const domObj = document.getElementById(`col-${x}${y}`)
+      if (cellData[x][y].contentEditable) {
+        return
+      }
+      this.props.editCol({
+        attr: {
+          contentEditable: true,
+          value: ''
+        },
+        x,
+        y,
+      })
+      ReactDOM.findDOMNode(domObj).focus()
     }
   }
   renderRows () {
