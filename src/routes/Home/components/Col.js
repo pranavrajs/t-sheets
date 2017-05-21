@@ -112,7 +112,7 @@ export class ColHeader extends React.PureComponent {
     colArr = colArr.map((el, index) => (
       <div className='dropdown col-header' key={index}>
         <button
-          className='btn btn-secondary dropdown-toggle'
+          className='btn dropdown-toggle'
           type='button'
           id={`d-${index}`}
           data-toggle='dropdown'

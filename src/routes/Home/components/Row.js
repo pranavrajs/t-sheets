@@ -32,7 +32,7 @@ export default class Row extends React.PureComponent {
       <div className='row-container'>
         <div className='dropdown row-header'>
           <button
-            className='btn btn-secondary dropdown-toggle'
+            className='btn dropdown-toggle'
             type='button'
             id={`d-${this.props.row}`}
             data-toggle='dropdown'
