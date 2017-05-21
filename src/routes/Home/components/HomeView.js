@@ -63,7 +63,7 @@ class Master extends React.Component {
     if (Keyboard.isEnter(e)) {
       if (x !== cellData.length - 1) {
         e.preventDefault()
-        var domObj = document.getElementById(`col-${x}${y}`)
+        const domObj = document.getElementById(`col-${x}${y}`)
         const value = ReactDOM.findDOMNode(domObj).innerHTML
         if (cellData[x][y].value === value) {
           return
@@ -184,7 +184,10 @@ class Master extends React.Component {
   render () {
     return (
       <div style={{ overflow: 'scroll' }}>
-        <button onClick={() => this.exportToCSV()}>
+        <button
+          className='export btn'
+          onClick={() => this.exportToCSV()}
+        >
           Export to CSV
         </button>
         <ColHeader

@@ -1,8 +1,14 @@
-.page-layout__viewport {
-  padding-top: 4rem;
-}
+$brand-color: #0F9D58;
+$color-white: #fff;
 
-.page-layout__nav-item--active {
-  font-weight: bold;
-  text-decoration: underline;
+.navbar {
+  border: 0;
+  padding: 0;
+  background: $color-white;
+  .navbar-brand {
+    width: 8rem;
+    color: $color-white !important;
+    background: $brand-color;
+    font-weight: 600;
+  }
 }

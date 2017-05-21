@@ -107,6 +107,15 @@ config.module.rules.push({
     fallback: 'style-loader',
     use: [
       {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: project.sourcemaps,
+          includePaths: [
+            inProjectSrc('styles'),
+          ],
+        },
+      },
+      {
         loader: 'css-loader',
         options: {
           sourceMap: project.sourcemaps,
@@ -127,15 +136,6 @@ config.module.rules.push({
           },
         },
       },
-      {
-        loader: 'sass-loader',
-        options: {
-          sourceMap: project.sourcemaps,
-          includePaths: [
-            inProjectSrc('styles'),
-          ],
-        },
-      }
     ],
   })
 })

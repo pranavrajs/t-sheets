@@ -1,3 +1,7 @@
+$header-color: #EFEFEF;
+$brand-color: #0F9D58;
+$color-white: #fff;
+
 .col {
   border: 1px solid #eee;
   margin-bottom: 0;
@@ -10,7 +14,12 @@
   overflow: auto;
 }
 
-
+.export {
+  position: fixed;
+  top: 0.8rem;
+  right: 0.8rem;
+  color: $color-white;
+}
 .col-header {
   display: flex;
   justify-content: center;
@@ -18,16 +27,15 @@
   min-height: 1rem;
   max-width: 10rem;
   align-items: center;
-  background: #d2d2d2;
+  background: $header-color;
   border-bottom: 1px solid #fff;
   border-left: 1px solid #fff;
   .btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #d2d2d2;
+    background: $header-color;
     resize: none;
-    font-weight: 800;
     flex: 1;
     border-radius: 0;
     p{
@@ -40,6 +48,7 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  box-shadow: inset 1px 0 0 rgba(0,0,0,.1);
   .row-header {
     min-width: 4rem;
     display: flex;
@@ -47,16 +56,14 @@
     align-items: center;
     height: 3rem;
     margin-bottom: 0;
-    font-weight: 800;
-    background: #d2d2d2;
+    background: $header-color;
     border-bottom: 1px solid #fff;
     .btn {
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #d2d2d2;
+      background: $header-color;
       resize: none;
-      font-weight: 800;
       flex: 1;
       border-radius: 0;
       p{
